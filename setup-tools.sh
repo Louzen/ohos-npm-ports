@@ -9,4 +9,7 @@ zsh -c "$(curl -fsSL https://harmonybrew.atomgit.com/install.sh)"
 export PATH=/storage/Users/currentUser/.harmonybrew/bin:$PATH
 
 # 安装 node 和开发工具
-brew install -y node python devel-base
+brew install -y node python devel-base rust
+
+# 设置 OHOS NDK 路径（napi-rs 构建需要 OHOS_NDK_HOME 定位 linker）
+export OHOS_NDK_HOME="$(brew --prefix ohos-sdk)"
