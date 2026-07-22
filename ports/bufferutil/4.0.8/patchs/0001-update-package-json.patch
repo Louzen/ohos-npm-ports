@@ -1,0 +1,38 @@
+diff --git a/package.json b/package.json
+index 8518951..bd28f92 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+-  "name": "bufferutil",
+-  "version": "4.0.8",
++  "name": "@ohos-npm-ports/bufferutil",
++  "version": "4.0.8-1",
+   "description": "WebSocket buffer utils",
+   "main": "index.js",
+   "engines": {
+@@ -8,13 +8,13 @@
+   },
+   "scripts": {
+     "install": "node-gyp-build",
+-    "prebuild": "prebuildify --napi --strip --target=14.0.0",
++    "prebuild": "prebuildify --napi --strip",
+     "prebuild-darwin-x64+arm64": "prebuildify --arch x64+arm64 --napi --strip --target=14.0.0",
+     "test": "mocha"
+   },
+   "repository": {
+     "type": "git",
+-    "url": "https://github.com/websockets/bufferutil"
++    "url": "https://github.com/ohos-npm-ports/ohos-npm-ports"
+   },
+   "keywords": [
+     "bufferutil"
+@@ -22,7 +22,7 @@
+   "author": "Einar Otto Stangvik <einaros@gmail.com> (http://2x.io)",
+   "license": "MIT",
+   "bugs": {
+-    "url": "https://github.com/websockets/bufferutil/issues"
++    "url": "https://github.com/ohos-npm-ports/ohos-npm-ports/issues"
+   },
+   "homepage": "https://github.com/websockets/bufferutil",
+   "dependencies": {
