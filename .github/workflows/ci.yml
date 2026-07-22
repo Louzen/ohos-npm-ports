@@ -27,11 +27,19 @@ jobs:
             BASE=${{ github.event.pull_request.base.sha }}
           fi
 
-          dirs=$(git diff --name-only "$BASE" HEAD \
-                 | grep '^ports/' \
-                 | sed -E 's|^(ports/[^/]+/[^/]+)/.*|\1|' \
-                 | sort -u \
-                 | jq -R -s -c 'split("\n")[:-1]')
+          # 如果 BASE 不可用（首次 push 或 force push），回退到列出所有 ports 目录
+          if ! git rev-parse --verify "$BASE" >/dev/null 2>&1; then
+            dirs=$(find ports -mindepth 2 -maxdepth 2 -type d \
+                   | sed -E 's|^(ports/[^/]+/[^/]+)$|\1|' \
+                   | sort -u \
+                   | jq -R -s -c 'split("\n")[:-1]')
+          else
+            dirs=$(git diff --name-only "$BASE" HEAD \
+                   | grep '^ports/' \
+                   | sed -E 's|^(ports/[^/]+/[^/]+)/.*|\1|' \
+                   | sort -u \
+                   | jq -R -s -c 'split("\n")[:-1]')
+          fi
 
           echo "matrix=$dirs" >> $GITHUB_OUTPUT
 
