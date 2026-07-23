@@ -1,0 +1,21 @@
+diff --git a/binding.gyp b/binding.gyp
+index 8518951..bd28f92 100644
+--- a/binding.gyp
++++ b/binding.gyp
+@@ -21,13 +21,15 @@
+       "src",
+       "<!(node -e \"require('nan')\")"
+     ],
++    "cflags_cc": [
++      "-std=c++20"
++    ],
+     "conditions": [
+       ["OS == 'linux'", {
+         "cflags_cc": [
+           "-Wno-cast-function-type" # nan issue: https://github.com/nodejs/nan/issues/807
+         ]
+       }]
+-    ]
+   # }, {
+   #   "target_name": "tests",
+   #   "sources": [

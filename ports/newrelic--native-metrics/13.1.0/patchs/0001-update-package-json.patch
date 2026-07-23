@@ -7,7 +7,7 @@ index 8518951..bd28f92 100644
 -  "name": "@newrelic/native-metrics",
 -  "version": "13.1.0",
 +  "name": "@ohos-npm-ports/native-metrics",
-+  "version": "13.1.0-1",
++  "version": "13.1.0-2",
    "description": "A module for generating metrics from V8.",
    "main": "index.js",
    "scripts": {
