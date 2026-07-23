@@ -1,0 +1,16 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 5106721..c0e32e4 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,12 +1,7 @@
+ [workspace]
+ members = [
+   "./crates/alloc",
+-  "./packages/argon2",
+-  "./packages/bcrypt",
+   "./packages/crc32",
+-  "./packages/jieba",
+-  "./packages/jsonwebtoken",
+-  "./packages/xxhash",
+ ]
+ resolver = "2"
