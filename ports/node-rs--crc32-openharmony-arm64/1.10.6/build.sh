@@ -7,6 +7,16 @@ if [ -z "${SKIP_SETUP:-}" ]; then
     source ../../../setup-tools.sh
 fi
 
+# Ensure git is available (devel-base may not include git)
+if ! command -v git >/dev/null 2>&1; then
+    if command -v brew >/dev/null 2>&1; then
+        brew install -y git
+    else
+        echo "[ERROR] git not found and brew not available"
+        exit 1
+    fi
+fi
+
 # ============================================================
 # @ohos-npm-ports/crc32-openharmony-arm64 platform sub-package
 # Cross-compile Rust source to aarch64-unknown-linux-ohos .node
