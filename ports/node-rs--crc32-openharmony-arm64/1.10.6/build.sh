@@ -43,10 +43,12 @@ export CARGO_TARGET_DIR="${BUILD_DIR}/target"
 G='\033[0;32m'; R='\033[0;31m'; N='\033[0m'
 info()  { printf "${G}[INFO]${N} %s\n" "$*"; }
 die()   { printf "${R}[ERROR]${N} %s\n" "$*"; exit 1; }
+pwdlog() { printf "${G}[INFO]${N} PWD: %s\n" "$(pwd)"; }
 
 # ============================================================
 # Step 1: Clone Rust source
 # ============================================================
+pwdlog
 info "=== Step 1: Clone Rust source ==="
 mkdir -p "$BUILD_DIR"
 
@@ -66,10 +68,12 @@ fi
 # ============================================================
 # Step 2: Apply Cargo.toml patch (trim workspace members)
 # ============================================================
+pwdlog
 info "=== Step 2: Apply Cargo.toml patch ==="
 cd "$SRC_DIR"
+pwdlog
 if grep -q 'packages/argon2' Cargo.toml; then
-    patch -p1 < "$PATCH_DIR/cargo-workspace.patch"
+    patch -p1 < "$PATCH_DIR/0001-update-package-json.patch"
     info "Cargo.toml patch applied"
 else
     info "Cargo.toml patch already applied, skip"
@@ -78,12 +82,14 @@ fi
 # ============================================================
 # Step 3: Compile Rust source
 # ============================================================
+pwdlog
 info "=== Step 3: Compile Rust source ==="
 info "target: $RUST_TARGET"
 info "crate:  node-rs-crc32 (cdylib, release)"
 info "building... (3-5 min)"
 
 cd "$SRC_DIR"
+pwdlog
 cargo build --release --target "$RUST_TARGET" -p node-rs-crc32
 
 COMPILED="${CARGO_TARGET_DIR}/${RUST_TARGET}/release/${CARGO_OUTPUT}"
@@ -92,7 +98,7 @@ if [ ! -f "$COMPILED" ]; then
 fi
 
 info "Build succeeded"
-info "File type: $(file "$COMPILED")"
+info "File type: $(file "$COMPILED" 2>/dev/null || echo 'unknown')"
 info "File size: $(du -h "$COMPILED" | cut -f1)"
 info "Dynamic deps:"
 readelf -d "$COMPILED" 2>/dev/null | grep NEEDED || echo "  (none or readelf unavailable)"
@@ -100,6 +106,7 @@ readelf -d "$COMPILED" 2>/dev/null | grep NEEDED || echo "  (none or readelf una
 # ============================================================
 # Step 4: Create npm platform sub-package
 # ============================================================
+pwdlog
 info "=== Step 4: Create npm sub-package ==="
 rm -rf "$SUBPKG_DIR"
 mkdir -p "$SUBPKG_DIR"
@@ -132,6 +139,7 @@ PKGJSON
 # ============================================================
 # Step 5: Verify
 # ============================================================
+pwdlog
 info "=== Step 5: Verify ==="
 
 echo "=== Sub-package contents ==="
@@ -149,6 +157,7 @@ fi
 # Module load test (non-fatal: some build envs restrict native module loading)
 if command -v node >/dev/null 2>&1; then
     cd "$SUBPKG_DIR"
+    pwdlog
     cat > "$SUBPKG_DIR/.test.js" << 'JSTEST'
 const mod = require("./crc32.openharmony-arm64.node");
 const checks = [
@@ -176,6 +185,7 @@ fi
 # ============================================================
 # Step 6: Summary
 # ============================================================
+pwdlog
 info "=== Build complete ==="
 echo ""
 echo "  Output dir: $SUBPKG_DIR"
