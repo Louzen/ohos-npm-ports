@@ -7,15 +7,17 @@ if [ -z "${SKIP_SETUP:-}" ]; then
     source ../../../setup-tools.sh
 fi
 
-# Ensure git is available (devel-base may not include git)
-if ! command -v git >/dev/null 2>&1; then
-    if command -v brew >/dev/null 2>&1; then
-        brew install -y git
-    else
-        echo "[ERROR] git not found and brew not available"
-        exit 1
+# Ensure required tools are available (some not included in devel-base)
+for tool in git cmake patch; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+        if command -v brew >/dev/null 2>&1; then
+            brew install -y "$tool"
+        else
+            echo "[ERROR] $tool not found and brew not available"
+            exit 1
+        fi
     fi
-fi
+done
 
 # ============================================================
 # @ohos-npm-ports/crc32-openharmony-arm64 platform sub-package
@@ -175,6 +177,13 @@ fi
 # Step 6: Summary
 # ============================================================
 info "=== Build complete ==="
+echo ""
+echo "  Output dir: $SUBPKG_DIR"
+echo "  Output file: $NODE_FILE ($(du -h "$SUBPKG_DIR/$NODE_FILE" | cut -f1))"
+echo "  Target: $RUST_TARGET"
+echo "  Rust:   $(rustc --version)"
+echo ""
+"=== Build complete ==="
 echo ""
 echo "  Output dir: $SUBPKG_DIR"
 echo "  Output file: $NODE_FILE ($(du -h "$SUBPKG_DIR/$NODE_FILE" | cut -f1))"
