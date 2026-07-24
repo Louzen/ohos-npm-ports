@@ -1,7 +1,9 @@
 diff --git a/package/index.js b/package/index.js
+index 8518951..bd28f92 100644
 --- a/package/index.js
 +++ b/package/index.js
-@@ -328,6 +328,12 @@
+@@ -327,6 +327,12 @@
+     } else {
        loadErrors.push(new Error(`Unsupported architecture on Linux: ${process.arch}`))
      }
 +  } else if (process.platform === 'openharmony') {
