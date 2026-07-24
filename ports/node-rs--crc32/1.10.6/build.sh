@@ -14,7 +14,7 @@ source ../../../setup-tools.sh
 curl -fsSL https://registry.npmjs.org/@node-rs/crc32/-/crc32-1.10.6.tgz -o crc32-1.10.6.tgz
 mkdir -p node-rs--node-rs-crc32-1.10.6
 tar -zxf crc32-1.10.6.tgz -C node-rs--node-rs-crc32-1.10.6
-rm  crc32-1.10.6.tgz
+rm crc32-1.10.6.tgz
 
 # 2. 应用 patch
 cd node-rs--node-rs-crc32-1.10.6

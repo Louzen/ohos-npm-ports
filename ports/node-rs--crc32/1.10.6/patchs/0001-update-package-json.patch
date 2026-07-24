@@ -1,19 +1,18 @@
 diff --git a/package/index.js b/package/index.js
 --- a/package/index.js
 +++ b/package/index.js
-@@ -326,6 +326,12 @@
-
-     } else {
+@@ -328,6 +328,12 @@
        loadErrors.push(new Error(`Unsupported architecture on Linux: ${process.arch}`))
+     }
 +  } else if (process.platform === 'openharmony') {
 +    if (process.arch === 'arm64') {
 +      return require('@ohos-npm-ports/crc32-openharmony-arm64')
 +    } else {
 +      loadErrors.push(new Error(`Unsupported architecture on openharmony: ${process.arch}`))
 +    }
-     }
    } else {
      loadErrors.push(new Error(`Unsupported OS: ${process.platform}, architecture: ${process.arch}`))
+   }
 diff --git a/package/package.json b/package/package.json
 --- a/package/package.json
 +++ b/package/package.json
